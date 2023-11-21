@@ -2,9 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Base de Datos de Máquinas</title>
 </head>
+<link rel="stylesheet" href="Styles.css" type="text/css">
 <body>
 
   <h1>Máquinas</h1>
@@ -18,19 +18,11 @@
     <input type="text" id="estado" required><br>
     <label for="observaciones">Observaciones:</label>
     <input type="text" id="observaciones" required><br><br>
-    <button type="button" onclick="agregarMaquina()">Agregar Máquina</button><br>
+    <button type="button" onclick="agregarMaquina()">Agregar Máquina</button>
+    <button id="redirectButton">Ir a Index</button>
   </form>
-  <br>
-  <button id="redirectButton">Ir a Index</button>
-
-  <ul id="maquinasList"></ul>
 
   <script>
-    // Función para redirigir a index.html
-    function redirectToIndex() {
-      window.location.href = '/index.html'; // Cambia 'index.html' al nombre de tu archivo principal si es diferente
-    }
-
     async function cargarMaquinas() {
       const response = await fetch('/api/maquinas');
       const maquinas = await response.json();
@@ -71,14 +63,15 @@
         document.getElementById('numeroServicio').value = '';
         document.getElementById('estado').value = '';
         document.getElementById('observaciones').value = '';
+        alert('Maquina agregada')
       } else {
         alert('Error al agregar la máquina');
       }
     }
-    // Agrega un evento de clic al botón para que llame a la función de redirección
-    document.getElementById('redirectButton').addEventListener('click', redirectToIndex);
+    document.getElementById('redirectButton').addEventListener('click', function() {
+      window.location.href = '/visualizar.html';
+    });
 
-    // Cargar las máquinas al cargar la página
     cargarMaquinas();
   </script>
 
