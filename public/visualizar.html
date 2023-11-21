@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualizar Máquinas</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Visualizar Máquinas</h1>
+
+  <table id="maquinasTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Número de Máquina</th>
+        <th>Número de Servicio</th>
+        <th>Estado</th>
+        <th>Observaciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // Cargar las máquinas al cargar la página
+    async function cargarMaquinas() {
+      const response = await fetch('/api/maquinas');
+      const maquinas = await response.json();
+      
+      const maquinasTable = document.getElementById('maquinasTable').getElementsByTagName('tbody')[0];
+      maquinasTable.innerHTML = '';
+
+      maquinas.forEach(function(maquina) {
+        const row = maquinasTable.insertRow();
+        row.insertCell(0).textContent = maquina.id;
+        row.insertCell(1).textContent = maquina.numero_maquina;
+        row.insertCell(2).textContent = maquina.numero_servicio;
+        row.insertCell(3).textContent = maquina.estado;
+        row.insertCell(4).textContent = maquina.observaciones;
+      });
+    }
+
+    // Cargar las máquinas al cargar la página
+    cargarMaquinas();
+  </script>
+
+</body>
+</html>

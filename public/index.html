@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base de Datos de Máquinas</title>
+</head>
+<body>
+
+  <h1>Máquinas</h1>
+
+  <form id="maquinaForm">
+    <label for="numeroMaquina">Número de Máquina:</label>
+    <input type="text" id="numeroMaquina" required><br>
+    <label for="numeroServicio">Número de Servicio:</label>
+    <input type="text" id="numeroServicio" required><br>
+    <label for="estado">Estado:</label>
+    <input type="text" id="estado" required><br>
+    <label for="observaciones">Observaciones:</label>
+    <input type="text" id="observaciones" required><br><br>
+    <button type="button" onclick="agregarMaquina()">Agregar Máquina</button>
+  </form>
+
+  <ul id="maquinasList"></ul>
+
+  <script>
+    async function cargarMaquinas() {
+      const response = await fetch('/api/maquinas');
+      const maquinas = await response.json();
+      
+      const maquinasList = document.getElementById('maquinasList');
+      maquinasList.innerHTML = '';
+
+      maquinas.forEach(function(maquina) {
+        const li = document.createElement('li');
+        li.textContent = `ID: ${maquina.id}, Número de Máquina: ${maquina.numero_maquina}, Número de Servicio: ${maquina.numero_servicio}, Estado: ${maquina.estado}, Observaciones: ${maquina.observaciones}`;
+        maquinasList.appendChild(li);
+      });
+    }
+
+    async function agregarMaquina() {
+      const numeroMaquina = document.getElementById('numeroMaquina').value;
+      const numeroServicio = document.getElementById('numeroServicio').value;
+      const estado = document.getElementById('estado').value;
+      const observaciones = document.getElementById('observaciones').value;
+
+      const response = await fetch('/api/maquinas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          numero_maquina: numeroMaquina,
+          numero_servicio: numeroServicio,
+          estado: estado,
+          observaciones: observaciones,
+        }),
+      });
+
+      if (response.ok) {
+        cargarMaquinas();
+        // Limpiar los campos de entrada
+        document.getElementById('numeroMaquina').value = '';
+        document.getElementById('numeroServicio').value = '';
+        document.getElementById('estado').value = '';
+        document.getElementById('observaciones').value = '';
+      } else {
+        alert('Error al agregar la máquina');
+      }
+    }
+
+    // Cargar las máquinas al cargar la página
+    cargarMaquinas();
+  </script>
+
+</body>
+</html>
