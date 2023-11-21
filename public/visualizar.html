@@ -25,9 +25,6 @@
 
   <h1>Visualizar Máquinas</h1>
 
-  <!-- Agrega el botón y le asigna un ID -->
-  <button id="redirectButton">Ir a Index</button>
-
   <table id="maquinasTable">
     <thead>
       <tr>
@@ -42,11 +39,7 @@
   </table>
 
   <script>
-    // Función para redirigir a index.html
-    function redirectToIndex() {
-      window.location.href = '/index.html'; // Cambia 'index.html' al nombre de tu archivo principal si es diferente
-    }
-
+    
     // Cargar las máquinas al cargar la página
     async function cargarMaquinas() {
       const response = await fetch('/api/maquinas');
@@ -64,9 +57,6 @@
         row.insertCell(4).textContent = maquina.observaciones;
       });
     }
-
-    // Agrega un evento de clic al botón para que llame a la función de redirección
-    document.getElementById('redirectButton').addEventListener('click', redirectToIndex);
 
     // Cargar las máquinas al cargar la página
     cargarMaquinas();
